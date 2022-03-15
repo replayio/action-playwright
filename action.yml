@@ -1,7 +1,6 @@
 name: Replay Playwright
 author: Replay.io
 description: Run and record Playwright tests with Replay
-
 inputs:
   command:
     description: "Command to run tests"
@@ -28,7 +27,7 @@ runs:
       with:
         result-encoding: json
         script: |
-          const upload = require('${{ env.GITHUB_ACTION_PATH }}/upload.js');
+          const upload = require('${{ github.action_path }}/upload.js');
           const ids = await upload({ require });
           return ids;
       env:
@@ -41,7 +40,7 @@ runs:
       with:
         result-encoding: string
         script: |
-          const comment = require('${{ env.GITHUB_ACTION_PATH }}/comment.js');
+          const comment = require('${{ github.action_path }}/comment.js');
 
           const recordings = ${{ steps.upload-recordings.outputs.result }};
           const {ISSUE_NUMBER: issue_number} = process.env;
