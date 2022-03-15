@@ -27,7 +27,7 @@ runs:
         result-encoding: json
         script: |
           const upload = require('./upload.js');
-          const ids = await upload();
+          const ids = await upload({ require });
           return ids;
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}

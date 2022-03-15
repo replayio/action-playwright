@@ -1,6 +1,6 @@
-const cli = require("@recordreplay/recordings-cli")
+async function uploadFailedRecordings({require}) {
+  const cli = require("@recordreplay/recordings-cli")
 
-async function uploadFailedRecordings() {
   const recordings = cli
     .listAllRecordings()
     .filter((r) => r.metadata.testStatus === 'failed');
