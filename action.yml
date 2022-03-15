@@ -17,7 +17,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@recordreplay/playwright/reporter
+    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@recordreplay/playwright-config/reporter
       shell: sh
     - name: 'Upload Recordings'
       id: 'upload-recordings'
