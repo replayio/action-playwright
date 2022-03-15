@@ -28,7 +28,7 @@ runs:
       with:
         result-encoding: json
         script: |
-          const upload = require('./upload.js');
+          const upload = require('${{ env.GITHUB_ACTION_PATH }}/upload.js');
           const ids = await upload({ require });
           return ids;
       env:
@@ -41,7 +41,7 @@ runs:
       with:
         result-encoding: string
         script: |
-          const comment = require('./comment.js');
+          const comment = require('${{ env.GITHUB_ACTION_PATH }}/comment.js');
 
           const recordings = ${{ steps.upload-recordings.outputs.result }};
           const {ISSUE_NUMBER: issue_number} = process.env;
