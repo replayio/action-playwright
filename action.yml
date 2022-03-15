@@ -17,6 +17,8 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: actions/checkout@v3
+    - uses: bahmutov/npm-install@v1
     - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@recordreplay/playwright-config/reporter
       shell: sh
     - name: 'Upload Recordings'
