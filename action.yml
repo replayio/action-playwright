@@ -35,7 +35,6 @@ runs:
         script: |
           const upload = require('${{ github.action_path }}/upload.js');
           const ids = await upload({ require });
-          console.log(">>", ids)
           return ids;
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}

@@ -19,15 +19,11 @@ async function uploadFailedRecordings({ require }) {
       failedRecordings.map((r) => cli.uploadRecording(r.id, { verbose: true }))
     );
 
-    console.log("all settled");
-
     results.forEach((r) => {
       if (r.status === "rejected") {
         console.error("Failed to upload replay:", r.reason);
       }
     });
-
-    console.log("handled rejected");
 
     return cli
       .listAllRecordings()
