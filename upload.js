@@ -7,17 +7,27 @@ async function uploadFailedRecordings({ require }) {
       (r) => r.metadata.testStatus === "failed"
     );
 
-    console.log("Found", failedRecordings.length, " failed recordings of", allRecordings.length, "total recordings");
+    console.log(
+      "Found",
+      failedRecordings.length,
+      "failed recordings of",
+      allRecordings.length,
+      "total recordings"
+    );
 
     const results = await Promise.allSettled(
       failedRecordings.map((r) => cli.uploadRecording(r.id, { verbose: true }))
     );
+
+    console.log("all settled");
 
     results.forEach((r) => {
       if (r.status === "rejected") {
         console.error("Failed to upload replay:", r.reason);
       }
     });
+
+    console.log("handled rejected");
 
     return cli
       .listAllRecordings()
