@@ -2,6 +2,9 @@ name: Replay Playwright
 author: Replay.io
 description: Run and record Playwright tests with Replay
 inputs:
+  working-directory:
+    description: "Relative path to app"
+    default: "."
   command:
     description: "Command to run tests"
     default: "npx playwright test"
@@ -16,9 +19,11 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v3
-    - uses: bahmutov/npm-install@v1
-    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@recordreplay/playwright-config/reporter
+    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter
+      shell: sh
+      working-directory: ${{ inputs.working-directory }}
+    - run: npm i @replayio/replay @replayio/playwright
+      if: ${{ always() }}
       shell: sh
     - name: 'Upload Recordings'
       id: 'upload-recordings'
@@ -46,3 +51,4 @@ runs:
           const {ISSUE_NUMBER: issue_number} = process.env;
 
           return await comment({context, github, issue_number, recordings});
+

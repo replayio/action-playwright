@@ -23,8 +23,7 @@ ${recordings
   .map(
     ({id, title}) => `[${title || id}](https://app.replay.io/recording/${id})`
   )
-  .join('\n')}
-`,
+  .join('\n')}`,
   });
 }
 
