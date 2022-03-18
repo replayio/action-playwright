@@ -28,6 +28,11 @@ Required | Name | Description | Default
 &nbsp; | `command` | The command to run your playwright tests | `npx playwright test`
 &nbsp; | `working-directory` | The relative working directory for the app | `.`
 
+> **Note:** This action appends arguments to your `command` to configure a
+> custom reporter. If you're using a command like `npm` to run `playwright
+> test`, you may need to include `--` at the end to allow those arguments to
+> pass to playwright.
+
 ## Complete Workflow Example
         
 ```yaml
