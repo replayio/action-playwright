@@ -17,8 +17,8 @@ inputs:
     required: true
     description: "Replay.io API Key"
   public:
-    required: true
     description: "Makes the uploaded replay viewable by everyone"
+    default: false
 runs:
   using: composite
   steps:
