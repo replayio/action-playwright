@@ -16,13 +16,16 @@ inputs:
   apiKey:
     required: true
     description: "Replay.io API Key"
+  public:
+    description: "Makes the uploaded replay viewable by everyone"
+    default: false
 runs:
   using: composite
   steps:
     - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter --workers=1
       shell: sh
       working-directory: ${{ inputs.working-directory }}
-    - run: npm i @replayio/replay @replayio/playwright
+    - run: npm i @replayio/replay @replayio/playwright axios
       if: ${{ always() }}
       shell: sh
     - name: 'Upload Recordings'
@@ -34,7 +37,7 @@ runs:
         result-encoding: json
         script: |
           const upload = require('${{ github.action_path }}/upload.js');
-          const ids = await upload({ require });
+          const ids = await upload({ require, apiKey: '${{ inputs.apiKey || null }}', public: ${{ inputs.public || false }} });
           return ids;
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
@@ -48,7 +51,7 @@ runs:
         script: |
           const comment = require('${{ github.action_path }}/comment.js');
 
-          const recordings = ${{ steps.upload-recordings.outputs.result }};
+          const recordings = ${{ steps.upload-recordings.outputs.result || '[]' }};
           const {ISSUE_NUMBER: issue_number} = process.env;
 
           return await comment({context, github, issue_number, recordings});
