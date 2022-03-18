@@ -5,7 +5,7 @@
 ## Usage
 
 1. Log into [app.replay.io](https://app.replay.io)
-2. Create a [Team API key](https://docs.replay.io/docs/setting-up-a-team-f5bd9ee853814d6f84e23fb535066199#4913df9eb7384a94a23ccbf335189370) (or Personal API Key)
+2. Create a [Team API key](https://docs.replay.io/docs/setting-up-a-team-f5bd9ee853814d6f84e23fb535066199#4913df9eb7384a94a23ccbf335189370) (Personal API keys can be used, but have a limit of 10 recordings)
 3. Store the API key as a [GitHub Repository Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `RECORD_REPLAY_API_KEY`
 4. Add the configuration below to your existing workflow (or start a new one with the [complete example](#complete-workflow-example) below)
 
@@ -22,16 +22,16 @@
 Required | Name | Description | Default
 -------- | ---- | ----------- | -------
 :white_check_mark: | `apiKey` | The Replay API Key used to upload recordings
-&nbsp; | `issue-number` | The number of the pull request on which to comment with failed test links | 
+&nbsp; | `issue-number` | The number of the pull request to comment with failed test links | 
 &nbsp; | `project` | The `@playwright/test` project to run
-&nbsp; | `public` | When true, make Replays public on upload | `false`
+&nbsp; | `public` | When true, make replays public on upload | `false`
 &nbsp; | `command` | The command to run your playwright tests | `npx playwright test`
 &nbsp; | `working-directory` | The relative working directory for the app | `.`
 
 > **Note:** This action appends arguments to your `command` to configure a
 > custom reporter. If you're using a command like `npm` to run `playwright
 > test`, you may need to include `--` at the end to allow those arguments to
-> pass to playwright.
+> pass to Playwright.
 
 ## Complete Workflow Example
         
