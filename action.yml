@@ -22,12 +22,11 @@ inputs:
 runs:
   using: composite
   steps:
+    - run: npm i @replayio/replay @replayio/playwright axios
+      shell: sh
     - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter --workers=1
       shell: sh
       working-directory: ${{ inputs.working-directory }}
-    - run: npm i @replayio/replay @replayio/playwright axios
-      if: ${{ always() }}
-      shell: sh
     - name: 'Upload Recordings'
       id: 'upload-recordings'
       uses: actions/github-script@v6
