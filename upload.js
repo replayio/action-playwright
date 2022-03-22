@@ -4,6 +4,8 @@ async function upload(cli) {
     (r) => r.metadata.testStatus === "failed"
   );
 
+  console.log(JSON.stringify(allRecordings, undefined, 2));
+
   console.log(
     "Found",
     failedRecordings.length,
