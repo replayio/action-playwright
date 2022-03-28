@@ -22,22 +22,19 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: npm i @replayio/replay @replayio/playwright axios
+    - run: npm i @replayio/playwright
       shell: sh
     - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter --workers=1
       shell: sh
       working-directory: ${{ inputs.working-directory }}
     - name: 'Upload Recordings'
       id: 'upload-recordings'
-      uses: actions/github-script@v6
+      uses: replayio/action-upload@ryan-v1
       if: ${{ always() }}
       with:
-        debug: true
-        result-encoding: json
-        script: |
-          const upload = require('${{ github.action_path }}/upload.js');
-          const ids = await upload({ require, apiKey: '${{ inputs.apiKey || null }}', public: ${{ inputs.public || false }} });
-          return ids;
+        apiKey: ${{ inputs.apiKey }}
+        public: ${{ inputs.public }}
+        filter: function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
@@ -50,7 +47,7 @@ runs:
         script: |
           const comment = require('${{ github.action_path }}/comment.js');
 
-          const recordings = ${{ steps.upload-recordings.outputs.result || '[]' }};
+          const recordings = ${{ steps.upload-recordings.outputs.recordings || '[]' }};
           const {ISSUE_NUMBER: issue_number} = process.env;
 
           return await comment({context, github, issue_number, recordings});
