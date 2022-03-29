@@ -19,6 +19,8 @@ inputs:
   public:
     description: "Makes the uploaded replay viewable by everyone"
     default: false
+  uploadAll:
+    description: "Upload all recordings instead of only recordings of failed tests"
 runs:
   using: composite
   steps:
@@ -34,7 +36,7 @@ runs:
       with:
         apiKey: ${{ inputs.apiKey }}
         public: ${{ inputs.public }}
-        # filter: function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }
+        filter: ${{ !inputs.uploadAll && 'function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }' || '' }}
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
