@@ -31,7 +31,7 @@ runs:
       working-directory: ${{ inputs.working-directory }}
     - name: 'Upload Recordings'
       id: 'upload-recordings'
-      uses: replayio/action-upload@ryan-v1
+      uses: replayio/action-upload@v0.1.0
       if: ${{ always() }}
       with:
         apiKey: ${{ inputs.apiKey }}
