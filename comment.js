@@ -21,7 +21,7 @@ function comment({github, context, issue_number, recordings}) {
 
 ${recordings
   .map(
-    ({id, title}) => `[${title || id}](https://app.replay.io/recording/${id})`
+    ({id, metadata: { title } }) => `[${title || id}](https://app.replay.io/recording/${id})`
   )
   .join('\n')}`,
   });
