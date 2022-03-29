@@ -27,6 +27,7 @@ Required | Name | Description | Default
 &nbsp; | `public` | When true, make replays public on upload | `false`
 &nbsp; | `command` | The command to run your playwright tests | `npx playwright test`
 &nbsp; | `working-directory` | The relative working directory for the app | `.`
+&nbsp; | `upload-all` | Upload all recordings instead of only recordings of failed tests | `false`
 
 > **Note:** This action appends arguments to your `command` to configure a
 > custom reporter. If you're using a command like `npm` to run `playwright
