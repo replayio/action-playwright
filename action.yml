@@ -34,7 +34,7 @@ runs:
       with:
         apiKey: ${{ inputs.apiKey }}
         public: ${{ inputs.public }}
-        filter: function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }
+        # filter: function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
