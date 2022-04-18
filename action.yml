@@ -25,9 +25,9 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: npm i @replayio/playwright
+    - run: npm i @replayio/playwright@">=0.2.0"
       shell: sh
-    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter --workers=1
+    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter
       shell: sh
       working-directory: ${{ inputs.working-directory }}
     - name: 'Upload Recordings'
