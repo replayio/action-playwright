@@ -10,7 +10,7 @@
 4. Add the configuration below to your existing workflow (or start a new one with the [complete example](#complete-workflow-example) below)
 
 ```yaml
-- uses: replayio/action-playwright@v0.2.0
+- uses: replayio/action-playwright@v0.3.1
   with:
     apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
     issue-number: ${{ github.event.pull_request.number }}
