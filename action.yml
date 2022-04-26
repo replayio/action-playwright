@@ -52,6 +52,7 @@ runs:
 
           const recordings = ${{ steps.upload-recordings.outputs.recordings || '[]' }};
           const {ISSUE_NUMBER: issue_number} = process.env;
+          const uploadAll = ${{ inputs.upload-all || false }};
 
-          return await comment({context, github, issue_number, recordings});
+          return await comment({context, github, issue_number, recordings, uploadAll });
 
