@@ -1,4 +1,4 @@
-function comment({github, context, issue_number, recordings, uploadAll}) {
+function comment({github, context, issue_number, recordings, uploadAll, source}) {
   const {
     repo: {owner, repo},
   } = context;
@@ -15,6 +15,7 @@ function comment({github, context, issue_number, recordings, uploadAll}) {
 
   const count = recordings.length === 1 ? '**1 replay**' : `**${recordings.length} replays**`;
   const upload = uploadAll ? '' : recordings.length === 1 ? ' of a failed test' : ' of failed tests';
+  const sourceText = source ? ` from **${source}**` : '';
 
   return github.rest.issues.createComment({
     issue_number,
@@ -22,7 +23,7 @@ function comment({github, context, issue_number, recordings, uploadAll}) {
     repo,
     body: `# [![logo](https://static.replay.io/images/logo-horizontal-small-light.svg)](https://app.replay.io)
 
-    :wave: Hey there! We uploaded ${count}${upload}.
+:wave: Hey there! We uploaded ${count}${upload}${sourceText}.
 
 ${recordings
   .map(
