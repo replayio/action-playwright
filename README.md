@@ -10,7 +10,7 @@
 4. Add the configuration below to your existing workflow (or start a new one with the [complete example](#complete-workflow-example) below)
 
 ```yaml
-- uses: replayio/action-playwright@v0.3.1
+- uses: replayio/action-playwright@v0.4.0
   with:
     apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
     issue-number: ${{ github.event.pull_request.number }}
@@ -27,6 +27,7 @@ Required | Name | Description | Default
 &nbsp; | `public` | When true, make replays public on upload | `false`
 &nbsp; | `command` | The command to run your playwright tests | `npx playwright test`
 &nbsp; | `working-directory` | The relative working directory for the app | `.`
+&nbsp; | `source` | Optional name of source included in comment |
 &nbsp; | `upload-all` | Upload all recordings instead of only recordings of failed tests | `false`
 
 > **Note:** This action appends arguments to your `command` to configure a
@@ -51,7 +52,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
         # with:
         #   working-directory: .
-      - uses: replayio/action-playwright@v0.2.0
+      - uses: replayio/action-playwright@v0.4.0
         with:
           # An optional command to run your tests.
           command: npx playwright test
@@ -59,6 +60,9 @@ jobs:
           # This is useful for open source projects that want to collaborate
           # with external users.
           public: true
+          # When set, includes this text in the comment added to the related
+          # pull request.
+          source: End to end playwright tests
           # When set, the action will comment on the PR with links to
           # replays of any failed tests.
           issue-number: ${{ github.event.pull_request.number }}
