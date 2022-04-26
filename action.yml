@@ -22,6 +22,8 @@ inputs:
   upload-all:
     description: "Upload all recordings instead of only recordings of failed tests"
     default: false
+  source:
+    description: "Optional name of source included in comment"
 runs:
   using: composite
   steps:
@@ -52,6 +54,8 @@ runs:
 
           const recordings = ${{ steps.upload-recordings.outputs.recordings || '[]' }};
           const {ISSUE_NUMBER: issue_number} = process.env;
+          const uploadAll = ${{ inputs.upload-all || false }};
+          const source =  "${{ inputs.source || '' }}";
 
-          return await comment({context, github, issue_number, recordings});
+          return await comment({context, github, issue_number, recordings, uploadAll, source });
 
