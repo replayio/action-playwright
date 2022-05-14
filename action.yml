@@ -32,6 +32,8 @@ runs:
     - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter
       shell: sh
       working-directory: ${{ inputs.working-directory }}
+    - run: npx replay ls
+      shell: sh
     - name: 'Upload Recordings'
       id: 'upload-recordings'
       uses: replayio/action-upload@v0.1.2
