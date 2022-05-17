@@ -37,6 +37,7 @@ runs:
       uses: replayio/action-upload@ryan-source-metadata
       if: ${{ always() }}
       with:
+        cli-version: 0.0.0-experimental-6ca7d6b6
         apiKey: ${{ inputs.apiKey }}
         public: ${{ inputs.public }}
         filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }' || '' }}
