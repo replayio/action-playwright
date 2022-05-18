@@ -15,8 +15,5 @@
   "bugs": {
     "url": "https://github.com/recordreplay/action-playwright/issues"
   },
-  "homepage": "https://github.com/recordreplay/action-playwright#readme",
-  "dependencies": {
-    "@recordreplay/recordings-cli": "^0.11.0"
-  }
+  "homepage": "https://github.com/recordreplay/action-playwright#readme"
 }
