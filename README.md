@@ -14,7 +14,7 @@
   with:
     apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
     issue-number: ${{ github.event.pull_request.number }}
-    project: replay-chromium
+    project: replay-firefox
 ```
 
 ## Arguments
@@ -68,7 +68,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           # The `@playwright/test` project to use. This should point to a project
           # that uses a Replay runtime.
-          project: replay-chromium
+          project: replay-firefox
           # An API key (usually a Team API Key) to use to upload replays.
           # Configure this via GitHub repo settings.
           apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
