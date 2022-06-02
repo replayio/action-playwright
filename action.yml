@@ -40,6 +40,7 @@ runs:
         apiKey: ${{ inputs.apiKey }}
         public: ${{ inputs.public }}
         filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }' || '' }}
+        cli-version: 0.0.0-experimental-6d2f8c30
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
