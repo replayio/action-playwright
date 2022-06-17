@@ -54,7 +54,7 @@ runs:
       with:
         result-encoding: string
         script: |
-          const comment = require(process.env.GITHUB_ACTION_PATH + '/comment.js');
+          const comment = require(process.env.GITHUB_ACTION_PATH + '/dist/comment.js');
 
           const apiKey = "${{ inputs.apiKey }}";
           const issue_number = "${{ inputs.issue-number }}";

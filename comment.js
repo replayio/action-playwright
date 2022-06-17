@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 async function getWorkspaceId(apiKey) {
 	const resp = await fetch("https://api.replay.io/v1/graphql", {
 		method: "POST",
