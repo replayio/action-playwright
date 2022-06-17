@@ -2851,43 +2851,53 @@ var require_lib2 = __commonJS({
 // comment.js
 var fetch = require_lib2();
 async function getWorkspaceId(apiKey) {
-  const resp = await fetch("https://api.replay.io/v1/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      variables: {},
-      query: `
-        query GetWS {
-          viewer {
-            user {
-              id
+  try {
+    const resp = await fetch("https://api.replay.io/v1/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        variables: {},
+        query: `
+          query GetWS {
+            viewer {
+              user {
+                id
+              }
             }
-          }
-          auth {
-            workspaces {
-              edges {
-                node {
-                  id
+            auth {
+              workspaces {
+                edges {
+                  node {
+                    id
+                  }
                 }
               }
             }
           }
-        }
-      `
-    })
-  });
-  const json = await resp.json();
-  if (json.errors || !json.data || json.data.user) {
+        `
+      })
+    });
+    const json = await resp.json();
+    console.log(json);
+    if (json.errors) {
+      throw new Error(errors[0].message);
+    } else if (!json.data) {
+      throw new Error("No data was returned");
+    } else if (json.data.user) {
+      return new Error("Unable to return a team for a user API Key");
+    }
+    const workspaces = json.data.auth.workspaces.edges;
+    if (workspaces.length !== 1) {
+      throw new Error("Multiple teams returned for the provided API key");
+    }
+    return workspaces[0].id;
+  } catch (e) {
+    console.log(e && e.message || "Unexpected error retrieving team ID");
     return null;
   }
-  const workspaces = json.data.auth.workspaces.edges;
-  if (workspaces.length !== 1) {
-    return null;
-  }
-  return workspaces[0].id;
 }
 async function comment({ apiKey, github, context, issue_number, recordings, uploadAll, source, testRunId }) {
   const {
