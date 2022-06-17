@@ -49,7 +49,7 @@ async function getWorkspaceId(apiKey) {
       throw new Error("Multiple teams returned for the provided API key");
     }
 
-    return workspaces[0].id;
+    return workspaces[0].node.id;
   } catch (e) {
     console.log((e && e.message) || "Unexpected error retrieving team ID");
     return null;
