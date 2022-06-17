@@ -2881,7 +2881,7 @@ async function getWorkspaceId(apiKey) {
       })
     });
     const json = await resp.json();
-    console.log(json);
+    console.log(JSON.stringify(json, void 0, 2));
     if (json.errors) {
       throw new Error(errors[0].message);
     } else if (!json.data) {
@@ -2899,7 +2899,16 @@ async function getWorkspaceId(apiKey) {
     return null;
   }
 }
-async function comment({ apiKey, github, context, issue_number, recordings, uploadAll, source, testRunId }) {
+async function comment({
+  apiKey,
+  github,
+  context,
+  issue_number,
+  recordings,
+  uploadAll,
+  source,
+  testRunId
+}) {
   const {
     repo: { owner, repo }
   } = context;
@@ -2917,8 +2926,10 @@ async function comment({ apiKey, github, context, issue_number, recordings, uplo
   let testRunMessage = "";
   if (apiKey && testRunId) {
     const workspaceId = await getWorkspaceId(apiKey);
+    console.log({ workspaceId });
     if (workspaceId) {
       testRunMessage = `View the [entire test run](https://app.replay.io/team/${workspaceId}/test-run/${testRunId}) on Replay.`;
+      console.log({ testRunMessage });
     }
   }
   return github.rest.issues.createComment({

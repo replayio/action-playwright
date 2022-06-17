@@ -30,10 +30,10 @@ async function getWorkspaceId(apiKey) {
         `,
       }),
     });
-    
+
     const json = await resp.json();
 
-    console.log(json);
+    console.log(JSON.stringify(json, undefined, 2));
 
     if (json.errors) {
       throw new Error(errors[0].message);
@@ -51,35 +51,53 @@ async function getWorkspaceId(apiKey) {
 
     return workspaces[0].id;
   } catch (e) {
-    console.log(e && e.message || "Unexpected error retrieving team ID");
+    console.log((e && e.message) || "Unexpected error retrieving team ID");
     return null;
   }
 }
 
-async function comment({apiKey,  github, context, issue_number, recordings, uploadAll, source, testRunId}) {
+async function comment({
+  apiKey,
+  github,
+  context,
+  issue_number,
+  recordings,
+  uploadAll,
+  source,
+  testRunId,
+}) {
   const {
-    repo: {owner, repo},
+    repo: { owner, repo },
   } = context;
 
   if (!issue_number) {
-    console.log('No issue number');
+    console.log("No issue number");
     return;
   }
 
   if (!recordings || recordings.length === 0) {
-    console.log('No recordings created');
+    console.log("No recordings created");
     return;
   }
 
-  const count = recordings.length === 1 ? '**1 replay**' : `**${recordings.length} replays**`;
-  const upload = uploadAll ? '' : recordings.length === 1 ? ' of a failed test' : ' of failed tests';
-  const sourceText = source ? ` from **${source}**` : '';
+  const count =
+    recordings.length === 1
+      ? "**1 replay**"
+      : `**${recordings.length} replays**`;
+  const upload = uploadAll
+    ? ""
+    : recordings.length === 1
+    ? " of a failed test"
+    : " of failed tests";
+  const sourceText = source ? ` from **${source}**` : "";
 
   let testRunMessage = "";
   if (apiKey && testRunId) {
     const workspaceId = await getWorkspaceId(apiKey);
+    console.log({ workspaceId });
     if (workspaceId) {
       testRunMessage = `View the [entire test run](https://app.replay.io/team/${workspaceId}/test-run/${testRunId}) on Replay.`;
+      console.log({ testRunMessage });
     }
   }
 
@@ -97,9 +115,10 @@ We uploaded ${count}${upload}${sourceText}.
 
 ${recordings
   .map(
-    ({id, metadata: { title } }) => `* [${title || id}](https://app.replay.io/recording/${id})`
+    ({ id, metadata: { title } }) =>
+      `* [${title || id}](https://app.replay.io/recording/${id})`
   )
-  .join('\n')}`,
+  .join("\n")}`,
   });
 }
 
