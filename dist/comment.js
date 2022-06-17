@@ -2881,7 +2881,6 @@ async function getWorkspaceId(apiKey) {
       })
     });
     const json = await resp.json();
-    console.log(JSON.stringify(json, void 0, 2));
     if (json.errors) {
       throw new Error(errors[0].message);
     } else if (!json.data) {
@@ -2926,10 +2925,8 @@ async function comment({
   let testRunMessage = "";
   if (apiKey && testRunId) {
     const workspaceId = await getWorkspaceId(apiKey);
-    console.log({ workspaceId });
     if (workspaceId) {
-      testRunMessage = `View the [entire test run](https://app.replay.io/team/${workspaceId}/test-run/${testRunId}) on Replay.`;
-      console.log({ testRunMessage });
+      testRunMessage = ` or you can view the [entire test run](https://app.replay.io/team/${workspaceId}/test-run/${testRunId}) on Replay`;
     }
   }
   return github.rest.issues.createComment({
@@ -2938,11 +2935,8 @@ async function comment({
     repo,
     body: `# [![logo](https://static.replay.io/images/logo-horizontal-small-light.svg)](https://app.replay.io)
 
-:wave: Hey there!
+:wave: Hey there! We uploaded ${count}${upload}${sourceText} linked below${testRunMessage}.
 
-${testRunMessage}
-
-We uploaded ${count}${upload}${sourceText}.
 
 ${recordings.map(({ id, metadata: { title } }) => `* [${title || id}](https://app.replay.io/recording/${id})`).join("\n")}`
   });
