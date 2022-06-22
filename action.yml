@@ -49,7 +49,7 @@ runs:
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
-      uses: replayio/action-comment@ryan/bac-1831-refactor-commenting-into-a-new-action
+      uses: replayio/action-comment@v0.1.0
       if: ${{ always() }}
       with:
         api-key: ${{ inputs.apiKey }}
