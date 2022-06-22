@@ -49,28 +49,10 @@ runs:
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
-      uses: actions/github-script@v6
+      uses: replayio/action-comment@ryan/bac-1831-refactor-commenting-into-a-new-action
       if: ${{ always() }}
       with:
-        result-encoding: string
-        script: |
-          const comment = require(process.env.GITHUB_ACTION_PATH + '/dist/comment.js');
-
-          const apiKey = "${{ inputs.apiKey }}";
-          const issue_number = "${{ inputs.issue-number }}";
-          const recordings = ${{ steps.upload-recordings.outputs.recordings || '[]' }};
-          const source =  "${{ inputs.source }}";
-          const testRunId = "${{ steps.test-run-id.outputs.UUID }}";
-          const uploadAll = ${{ inputs.upload-all || false }};
-
-          return await comment({
-            apiKey,
-            context,
-            github,
-            issue_number,
-            recordings,
-            source,
-            testRunId,
-            uploadAll,
-          });
+        api-key: ${{ inputs.apiKey }}
+        issue-number: ${{ github.event.pull_request.number }}
+        test-run-id: ${{ steps.test-run-id.outputs.UUID }}
 
