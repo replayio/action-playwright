@@ -54,5 +54,6 @@ runs:
       with:
         api-key: ${{ inputs.apiKey }}
         issue-number: ${{ github.event.pull_request.number }}
+        recordings: ${{ steps.upload-recordings.outputs.recordings }}
         test-run-id: ${{ steps.test-run-id.outputs.UUID }}
 
