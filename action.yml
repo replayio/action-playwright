@@ -40,12 +40,12 @@ runs:
         RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.UUID }}
     - name: 'Upload Recordings'
       id: 'upload-recordings'
-      uses: replayio/action-upload@v0.2.5
+      uses: replayio/action-upload@v0.2.6
       if: ${{ always() }}
       with:
         apiKey: ${{ inputs.apiKey }}
         public: ${{ inputs.public }}
-        filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.testStatus = "failed" and $v.status = "onDisk" }' || '' }}
+        filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.test.result = "failed" and $v.status = "onDisk" }' || 'function($v) { $v.metadata.test.result and $v.status = "onDisk" }' }}
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
