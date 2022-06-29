@@ -10,7 +10,7 @@
 4. Add the configuration below to your existing workflow (or start a new one with the [complete example](#complete-workflow-example) below)
 
 ```yaml
-- uses: replayio/action-playwright@v0.4.0
+- uses: replayio/action-playwright@v0.4.14
   with:
     apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
     issue-number: ${{ github.event.pull_request.number }}
@@ -52,7 +52,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
         # with:
         #   working-directory: .
-      - uses: replayio/action-playwright@v0.4.0
+      - uses: replayio/action-playwright@v0.4.14
         with:
           # An optional command to run your tests.
           command: npx playwright test
