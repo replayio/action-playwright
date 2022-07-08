@@ -49,7 +49,7 @@ runs:
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
     - name: 'Comment PR'
-      uses: replayio/action-comment@v0.1.1
+      uses: replayio/action-comment@0706-edit-content
       if: ${{ always() }}
       with:
         api-key: ${{ inputs.apiKey }}
