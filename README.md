@@ -1,8 +1,25 @@
 # `replayio/action-playwright`
 
-> Record your failed [Playwright](https://playwright.dev) tests with [Replay](https://replay.io)
+Record your [Playwright](https://playwright.dev) tests with [Replay](https://replay.io) and automatically upload replays of failed tests.
+
+**Use with [`@replayio/playwright`](https://github.com/replayio/replay-cli/tree/main/packages/playwright)**
+
+## Overview
+
+Using `action-playwright` in your GitHub Actions workflow is the easiest way to get started recording your Playwright tests in CI.
+The action:
+
+* Ensures Replay Browsers are installed on the CI machine
+* Runs your tests with the browser set for a given project
+* Uploads replays from the test run to the team associated with the given API key
+* Comments on the initiating pull request with links to the test run and replays
+
 
 ## Usage
+
+First, add `replayio/plawyright` and configure using instructions in the [Recording Automated Tests guide](https://docs.replay.io/docs/configuring-playwright-f044b4af24234394937f98bebb59dfba).
+
+Then: 
 
 1. Log into [app.replay.io](https://app.replay.io)
 2. Create a [Team API key](https://docs.replay.io/docs/setting-up-a-team-f5bd9ee853814d6f84e23fb535066199#4913df9eb7384a94a23ccbf335189370) (Personal API keys can be used, but have a limit of 10 recordings)
@@ -10,7 +27,7 @@
 4. Add the configuration below to your existing workflow (or start a new one with the [complete example](#complete-workflow-example) below)
 
 ```yaml
-- uses: replayio/action-playwright@v0.4.14
+- uses: replayio/action-playwright@v0.4.15
   with:
     apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
     issue-number: ${{ github.event.pull_request.number }}
@@ -29,6 +46,7 @@ Required | Name | Description | Default
 &nbsp; | `working-directory` | The relative working directory for the app | `.`
 &nbsp; | `source` | Optional name of source included in comment |
 &nbsp; | `upload-all` | Upload all recordings instead of only recordings of failed tests | `false`
+
 
 > **Note:** This action appends arguments to your `command` to configure a
 > custom reporter. If you're using a command like `npm` to run `playwright
@@ -52,7 +70,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
         # with:
         #   working-directory: .
-      - uses: replayio/action-playwright@v0.4.14
+      - uses: replayio/action-playwright@v0.4.15
         with:
           # An optional command to run your tests.
           command: npx playwright test
