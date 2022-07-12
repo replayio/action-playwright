@@ -27,17 +27,23 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Install Dependencies
+      run: npm install --prefix $GITHUB_ACTION_PATH uuid
+      shell: bash
     - name: Generate Test Run ID
       id: test-run-id
-      run: echo "::set-output name=UUID::$(uuidgen | tr A-Z a-z)"
-      shell: bash
+      uses: actions/github-script@v6
+      with:
+        result-encoding: string
+        script: |
+          return require(require('path').join(process.env.GITHUB_ACTION_PATH, 'node_modules', 'uuid')).v4()
     - run: npm i @replayio/playwright@">=0.2.0"
       shell: sh
     - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter
       shell: sh
       working-directory: ${{ inputs.working-directory }}
       env:
-        RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.UUID }}
+        RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.result }}
     - name: 'Upload Recordings'
       id: 'upload-recordings'
       uses: replayio/action-upload@v0.3.0
@@ -55,5 +61,5 @@ runs:
         api-key: ${{ inputs.apiKey }}
         issue-number: ${{ inputs.issue-number }}
         recordings-path: ${{ steps.upload-recordings.outputs.recordings-path }}
-        test-run-id: ${{ steps.test-run-id.outputs.UUID }}
+        test-run-id: ${{ steps.test-run-id.outputs.result }}
 
