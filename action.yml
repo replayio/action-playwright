@@ -44,17 +44,17 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       env:
         RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.result }}
-    - name: 'Upload Recordings'
-      id: 'upload-recordings'
+    - name: "Upload Recordings"
+      id: "upload-recordings"
       uses: replayio/action-upload@v0.3.1
       if: ${{ always() }}
       with:
         apiKey: ${{ inputs.apiKey }}
         public: ${{ inputs.public }}
-        filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.test.result = "failed" and $v.status = "onDisk" }' || 'function($v) { $v.metadata.test.result and $v.status = "onDisk" }' }}
+        filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.test.result = "failed" }' || 'function($v) { $v.metadata.test.result }' }}
       env:
         RECORD_REPLAY_API_KEY: ${{ inputs.apiKey }}
-    - name: 'Comment PR'
+    - name: "Comment PR"
       uses: replayio/action-comment@v0.2.0
       if: ${{ always() }}
       with:
@@ -62,4 +62,3 @@ runs:
         issue-number: ${{ inputs.issue-number }}
         recordings-path: ${{ steps.upload-recordings.outputs.recordings-path }}
         test-run-id: ${{ steps.test-run-id.outputs.result }}
-
