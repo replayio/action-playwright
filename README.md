@@ -25,12 +25,12 @@ Then:
 2. Create a [Team API key](https://docs.replay.io/docs/setting-up-a-team-f5bd9ee853814d6f84e23fb535066199#4913df9eb7384a94a23ccbf335189370) (Personal API keys can be used, but have a limit of 10 recordings)
 3. Store the API key as a [GitHub Repository Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `RECORD_REPLAY_API_KEY`
 4. Add the configuration below to your existing workflow (or start a new one with the [complete example](#complete-workflow-example) below)
+5. Install the [Replay GitHub App](https://github.com/apps/replay-io) to add comments to your Pull Requests with links to replays of your tests
 
 ```yaml
-- uses: replayio/action-playwright@v0.4.15
+- uses: replayio/action-playwright@v0.5.0
   with:
-    apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
-    issue-number: ${{ github.event.pull_request.number }}
+    api-key: ${{ secrets.RECORD_REPLAY_API_KEY }}
     project: replay-firefox
 ```
 
@@ -38,13 +38,11 @@ Then:
 
 Required | Name | Description | Default
 -------- | ---- | ----------- | -------
-:white_check_mark: | `apiKey` | The Replay API Key used to upload recordings
-&nbsp; | `issue-number` | The number of the pull request to comment with failed test links | 
+:white_check_mark: | `api-key` | The Replay API Key used to upload recordings
 &nbsp; | `project` | The `@playwright/test` project to run
 &nbsp; | `public` | When true, make replays public on upload | `false`
 &nbsp; | `command` | The command to run your playwright tests | `npx playwright test`
 &nbsp; | `working-directory` | The relative working directory for the app | `.`
-&nbsp; | `source` | Optional name of source included in comment |
 &nbsp; | `upload-all` | Upload all recordings instead of only recordings of failed tests | `false`
 
 
@@ -70,7 +68,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
         # with:
         #   working-directory: .
-      - uses: replayio/action-playwright@v0.4.15
+      - uses: replayio/action-playwright@v0.5.0
         with:
           # An optional command to run your tests.
           command: npx playwright test
@@ -78,18 +76,12 @@ jobs:
           # This is useful for open source projects that want to collaborate
           # with external users.
           public: true
-          # When set, includes this text in the comment added to the related
-          # pull request.
-          source: End to end playwright tests
-          # When set, the action will comment on the PR with links to
-          # replays of any failed tests.
-          issue-number: ${{ github.event.pull_request.number }}
           # The `@playwright/test` project to use. This should point to a project
           # that uses a Replay runtime.
           project: replay-firefox
           # An API key (usually a Team API Key) to use to upload replays.
           # Configure this via GitHub repo settings.
-          apiKey: ${{ secrets.RECORD_REPLAY_API_KEY }}
+          api-key: ${{ secrets.RECORD_REPLAY_API_KEY }}
           # An optional working directory which is useful if the project being
           # tested resides in a subdirectory of the repository
           working-directory: .
