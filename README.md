@@ -17,7 +17,7 @@ The action:
 
 ## Usage
 
-First, add `replayio/plawyright` and configure using instructions in the [Recording Automated Tests guide](https://docs.replay.io/docs/configuring-playwright-f044b4af24234394937f98bebb59dfba).
+First, add `replayio/playwright` and configure using instructions in the [Recording Automated Tests guide](https://docs.replay.io/docs/configuring-playwright-f044b4af24234394937f98bebb59dfba).
 
 Then: 
 
