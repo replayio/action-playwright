@@ -24,8 +24,8 @@ runs:
   using: composite
   steps:
     - name: Install Dependencies
-      run: npm install --prefix $GITHUB_ACTION_PATH uuid
-      shell: bash
+      run: npm install --silent --prefix $GITHUB_ACTION_PATH uuid
+      shell: sh
     - name: Generate Test Run ID
       id: test-run-id
       uses: actions/github-script@v6
@@ -33,9 +33,9 @@ runs:
         result-encoding: string
         script: |
           return require(require('path').join(process.env.GITHUB_ACTION_PATH, 'node_modules', 'uuid')).v4()
-    - run: npm i @replayio/playwright@">=0.2.0"
+    - run: npm i --silent --prefix $GITHUB_ACTION_PATH @replayio/playwright@latest
       shell: sh
-    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,@replayio/playwright/reporter
+    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,$GITHUB_ACTION_PATH/node_modules/@replayio/playwright/reporter
       shell: sh
       working-directory: ${{ inputs.working-directory }}
       env:
@@ -43,11 +43,9 @@ runs:
         RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.result }}
     - name: "Upload Recordings"
       id: "upload-recordings"
-      uses: replayio/action-upload@v0.4.3
+      uses: replayio/action-upload@v0.4.4
       if: ${{ always() }}
       with:
         api-key: ${{ inputs.api-key }}
         public: ${{ inputs.public }}
         filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.test.result = "failed" }' || 'function($v) { $v.metadata.test.result }' }}
-      env:
-        RECORD_REPLAY_API_KEY: ${{ inputs.api-key }}
