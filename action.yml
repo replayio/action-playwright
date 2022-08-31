@@ -48,4 +48,4 @@ runs:
       with:
         api-key: ${{ inputs.api-key }}
         public: ${{ inputs.public }}
-        filter: ${{ !inputs.upload-all && 'function($v) { $v.metadata.test.result = "failed" }' || 'function($v) { $v.metadata.test.result }' }}
+        filter: ${{ inputs.upload-all == 'true' && 'function($v) { $v.metadata.test.result }' || 'function($v) { $v.metadata.test.result = "failed" }' }}
