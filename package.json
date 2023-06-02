@@ -1,6 +1,6 @@
 {
   "name": "action-playwright",
-  "version": "0.5.8",
+  "version": "0.6.0",
   "description": "Run and record Playwright tests with Replay",
   "main": "index.js",
   "scripts": {

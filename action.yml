@@ -20,6 +20,9 @@ inputs:
   upload-all:
     description: "Upload all recordings instead of only recordings of failed tests"
     default: false
+  include-summary:
+    description: "Display links to uploaded replays on the workflow summary page"
+    default: true
 runs:
   using: composite
   steps:
@@ -43,9 +46,10 @@ runs:
         RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.result }}
     - name: "Upload Recordings"
       id: "upload-recordings"
-      uses: replayio/action-upload@v0.4.7
+      uses: replayio/action-upload@v0.5.0
       if: ${{ always() }}
       with:
         api-key: ${{ inputs.api-key }}
         public: ${{ inputs.public }}
+        include-summary: ${{ inputs.include-summary }}
         filter: ${{ inputs.upload-all == 'true' && 'function($v) { $v.metadata.test.result }' || 'function($v) { $v.metadata.test.result = "failed" }' }}
