@@ -36,9 +36,17 @@ runs:
         result-encoding: string
         script: |
           return require(require('path').join(process.env.GITHUB_ACTION_PATH, 'node_modules', 'uuid')).v4()
-    - run: npm i --silent --prefix $GITHUB_ACTION_PATH @replayio/playwright@latest
+    - name: Install @replayio/playwright if necessary
+      id: playwright-path
       shell: sh
-    - run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,$GITHUB_ACTION_PATH/node_modules/@replayio/playwright/reporter
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        npm ls @replayio/playwright > /dev/null 2>&1 || ( \
+          npm i --silent --prefix $GITHUB_ACTION_PATH @replayio/playwright@latest && \
+          echo "value=$GITHUB_ACTION_PATH/@replayio/playwright" >> "$GITHUB_OUTPUT" \
+        )
+    - name: Run Tests
+      run: ${{ inputs.command }} --project ${{ inputs.project }} --reporter=line,${{ steps.playwright-path.value || '@replayio/playwright' }}/reporter
       shell: sh
       working-directory: ${{ inputs.working-directory }}
       env:
