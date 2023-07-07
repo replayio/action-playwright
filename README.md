@@ -27,7 +27,7 @@ Then:
 5. Install the [Replay GitHub App](https://github.com/apps/replay-io) to add comments to your Pull Requests with links to replays of your tests
 
 ```yaml
-- uses: replayio/action-playwright@v0.6.0
+- uses: replayio/action-playwright@v0.6.1
   with:
     api-key: ${{ secrets.RECORD_REPLAY_API_KEY }}
     project: replay-firefox
@@ -66,7 +66,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
         # with:
         #   working-directory: .
-      - uses: replayio/action-playwright@v0.6.0
+      - uses: replayio/action-playwright@v0.6.1
         with:
           # An optional command to run your tests.
           command: npx playwright test
