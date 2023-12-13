@@ -10,7 +10,7 @@ inputs:
     default: "npx playwright test"
   project:
     description: "Project for replay browser"
-    default: "replay-firefox"
+    default: "replay-chromium"
   api-key:
     required: true
     description: "Replay.io API Key"
@@ -50,7 +50,6 @@ runs:
       shell: sh
       working-directory: ${{ inputs.working-directory }}
       env:
-        RECORD_REPLAY_DISABLE_REDUX_DEVTOOLS: 1
         RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.result }}
     - name: "Upload Recordings"
       id: "upload-recordings"
