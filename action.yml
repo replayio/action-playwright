@@ -53,7 +53,7 @@ runs:
         RECORD_REPLAY_TEST_RUN_ID: ${{ steps.test-run-id.outputs.result }}
     - name: "Upload Recordings"
       id: "upload-recordings"
-      uses: replayio/action-upload@v0.5.0
+      uses: replayio/action-upload@v0.5.1
       if: ${{ always() }}
       with:
         api-key: ${{ inputs.api-key }}
